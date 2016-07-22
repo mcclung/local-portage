@@ -18,7 +18,3 @@ IUSE=""
 DEPEND="dev-lisp/alexandria
 	dev-lisp/cffi
 	sys-libs/ncurses"
-
-src_prepare() {
-	sed -i -e '/:unix/s/ncurses.so/ncurses.so.5/' "${S}/src/charms.lisp" || die
-}
