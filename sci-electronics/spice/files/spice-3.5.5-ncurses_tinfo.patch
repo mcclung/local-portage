@@ -1,0 +1,10 @@
+--- spice3f5sfix_ori/conf/linux   2016-12-12 09:03:45.286129390 -0500
++++ spice3f5sfix/conf/linux   2016-12-12 09:05:58.878315601 -0500
+@@ -10,7 +10,7 @@
+                   -I$(X_DIR)/include/X11/Xaw
+ LIBX            = -L$(X_DIR)/lib -lXaw -lXt -lXext -lXmu -lSM -lICE -lX11
+ 
+-LDFLAGS           = -lncurses -lm -Wl,-O1 -Wl,--as-needed 
++LDFLAGS           = -ltinfow -lncurses -lm -Wl,-O1 -Wl,--as-needed 
+ 
+ CC_OPT           = -O1 -pipe
