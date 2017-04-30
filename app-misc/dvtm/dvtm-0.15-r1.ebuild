@@ -39,7 +39,7 @@ src_prepare() {
 		-e '/strip/d' \
 		-e 's:@tic :@tic -o ${DESTDIR}${PREFIX}/share/terminfo :g' \
 		Makefile || die "sed Makefile failed"
-
+	epatch "${FILESDIR}"/${P}-ncurses_tinfo.patch
 	restore_config config.h
 }
 
