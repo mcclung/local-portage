@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit savedconfig toolchain-funcs
+inherit eutils savedconfig toolchain-funcs
 
 DESCRIPTION="Dynamic virtual terminal manager"
 HOMEPAGE="http://www.brain-dump.org/projects/dvtm/"
