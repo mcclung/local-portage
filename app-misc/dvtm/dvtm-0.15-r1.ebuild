@@ -24,6 +24,7 @@ DEPEND="sys-libs/ncurses:0[unicode?]"
 RDEPEND=${DEPEND}
 
 src_prepare() {
+	epatch "${FILESDIR}"/${P}-ncurses_tinfo.patch
 	sed -i \
 		-e 's|FLAGS =|FLAGS +=|' \
 		-e 's|-I/usr/local/include||' \
@@ -39,7 +40,6 @@ src_prepare() {
 		-e '/strip/d' \
 		-e 's:@tic :@tic -o ${DESTDIR}${PREFIX}/share/terminfo :g' \
 		Makefile || die "sed Makefile failed"
-	epatch "${FILESDIR}"/${P}-ncurses_tinfo.patch
 	restore_config config.h
 }
 
