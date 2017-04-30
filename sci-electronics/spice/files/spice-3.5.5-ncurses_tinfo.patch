@@ -1,10 +1,12 @@
---- spice3f5sfix_ori/conf/linux   2016-12-12 09:03:45.286129390 -0500
-+++ spice3f5sfix/conf/linux   2016-12-12 09:05:58.878315601 -0500
+diff -u --recursive spice3f5sfix.orig/conf/linux spice3f5sfix/conf/linux
+--- spice3f5sfix.orig/conf/linux	1999-06-25 01:24:00.000000000 -0400
++++ spice3f5sfix/conf/linux	2017-04-30 00:42:23.404376884 -0400
 @@ -10,7 +10,7 @@
                    -I$(X_DIR)/include/X11/Xaw
  LIBX            = -L$(X_DIR)/lib -lXaw -lXt -lXext -lXmu -lSM -lICE -lX11
  
--LDFLAGS           = -lncurses -lm -Wl,-O1 -Wl,--as-needed 
-+LDFLAGS           = -ltinfow -lncurses -lm -Wl,-O1 -Wl,--as-needed 
+-LDFLAGS	        = -ltermcap -lm -s  
++LDFLAGS	        = `pkg-config --libs ncurses` -lm ${LDFLAGS}
  
- CC_OPT           = -O1 -pipe
+ CC_OPT	        = -O2 -s
+ 

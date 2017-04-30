@@ -32,10 +32,8 @@ src_unpack() {
 	# Avoid re-creating WORKDIR due to stupid mtime
 	touch ..
 
-	sed -i -e "s:termcap:ncurses:g" \
-		-e "s:joe:/usr/libexec/editor:g" \
+	sed -i -e "s:joe:/usr/libexec/editor:g" \
 		-e "s:-O2 -s:${CFLAGS}:g" \
-		-e "s:-lncurses -lm -s:-lncurses -lm ${LDFLAGS}:" \
 		-e "s:SPICE_DIR)/lib:SPICE_DIR)/$(get_libdir)/spice:g" \
 		-e "s:/usr/local/spice:/usr:g" \
 		-e "s:/X11R6::" \
