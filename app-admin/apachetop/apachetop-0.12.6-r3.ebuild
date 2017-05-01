@@ -20,6 +20,7 @@ RDEPEND="
 DEPEND="${RDEPEND}"
 
 src_prepare() {
+	epatch "${FILESDIR}"/${P}-ncurses_tinfo.patch
 	epatch "${FILESDIR}"/${P}-gcc41.patch
 	epatch "${FILESDIR}"/${P}-configure.patch
 	epatch "${FILESDIR}"/${P}-maxpathlen.patch
