@@ -1,0 +1,23 @@
+diff -u --recursive tiptop-2.3-orig/configure.ac tiptop-2.3/configure.ac
+--- tiptop-2.3-orig/configure.ac	2015-07-08 04:32:55.000000000 -0400
++++ tiptop-2.3/configure.ac	2017-05-08 22:40:40.895915982 -0400
+@@ -19,11 +19,16 @@
+ 
+ # Checks for libraries.
+ if test ! x$disable_curses = xno; then # check only if not disabled
+-AC_CHECK_LIB([curses], [initscr],
++AC_CHECK_LIB([ncurses], [initscr],
+                   [have_curses=yes;
+-                  AC_DEFINE([HAVE_LIBCURSES], [1], [Define to 1 if you have the `curses' library (-lcurses).])
+-                  LIBS="-lcurses $LIBS"],
++                  AC_DEFINE([HAVE_LIBNCURSES], [1], [Define to 1 if you have the `curses' library (-lncurses).])
++                  LIBS="-lncurses $LIBS"],
+              [have_curses=no])
++AC_CHECK_LIB([tinfo], [stdscr],
++		  [have_curses=yes;
++		  AC_DEFINE([HAVE_LIBTINFO], [1], [Define to 1 if you have the `tinfo' library (-ltinfo).])
++		  LIBS="-ltinfo $LIBS"],
++	     [have_curses=no])
+ fi
+ 
+ if test ! x$disable_libxml2 = xno; then # check only if not disabled
