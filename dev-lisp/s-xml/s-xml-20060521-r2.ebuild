@@ -18,11 +18,11 @@ RDEPEND="!dev-lisp/cl-${PN}"
 
 src_unpack() {
 	unpack ${A}
-	eapply_user
 }
 
 src_prepare() {
 	rm "${S}"/Makefile
+	eapply_user
 }
 
 src_install() {
