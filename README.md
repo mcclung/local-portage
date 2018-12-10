@@ -1,4 +1,2 @@
-# local-portage
-Portage overlay for my commonly used ebuilds.
-
-Some ebuilds will come and go here, as things are fixed in the main tree.
+Portage overlay for my commonly used ebuilds.  Many of them are broken now.
+Need to clean (remove) many of them or work with upstream to fix them.
