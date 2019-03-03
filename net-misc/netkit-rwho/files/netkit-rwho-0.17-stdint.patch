@@ -1,0 +1,10 @@
+--- a/rwhod/rwhod.c.orig        2019-03-03 00:19:55.994721368 -0500
++++ b/rwhod/rwhod.c     2019-03-03 00:40:04.040057374 -0500
+@@ -61,6 +66,7 @@
+ #include <netdb.h>
+ #include <syslog.h>
+ #include <protocols/rwhod.h>
++#include <stdint.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <paths.h>
