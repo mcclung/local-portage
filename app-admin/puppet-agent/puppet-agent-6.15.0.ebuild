@@ -6,11 +6,11 @@ inherit eutils systemd unpacker
 
 DESCRIPTION="general puppet client utils along with hiera and facter"
 HOMEPAGE="https://puppetlabs.com/"
-SRC_URI="http://apt.puppetlabs.com/pool/buster/puppet/${PN:0:1}/${PN}/${PN}_${PV}-1buster_amd64.deb"
+SRC_URI="http://apt.puppetlabs.com/pool/focal/puppet/${PN:0:1}/${PN}/${PN}_${PV}-1focal_amd64.deb"
 
 LICENSE="Apache-2.0"
 SLOT="0"
-KEYWORDS="~amd64 ~x86"
+KEYWORDS="amd64 x86"
 IUSE="puppetdb selinux"
 RESTRICT="strip"
 
