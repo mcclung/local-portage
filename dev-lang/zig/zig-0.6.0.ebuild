@@ -55,6 +55,7 @@ src_configure() {
 	local mycmakeargs=(
 		-DCLANG_INCLUDE_DIRS="$(llvm-config --includedir)"
 		-DCLANG_LIBDIRS="$(llvm-config --libdir)"
+		-DLLD_INCLUDE_DIRS="$(llvm-config --includedir)"
 	)
 
 	cmake_src_configure
