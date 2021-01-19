@@ -142,7 +142,7 @@ src_prepare() {
 		rm ax_python_devel.m4
 
 		# Use correct python version.
-		if use python_single_target_python3_6 || use python_single_target_python3_7; then
+		if use python_single_target_python3_7; then
 			append-libs "-lpython${EPYTHON#python}m"
 		else
 			append-libs "-lpython${EPYTHON#python}"
