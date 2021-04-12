@@ -2,6 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
+EAPI=7
+
 inherit eutils autotools toolchain-funcs
 
 DESCRIPTION="Converts assembler source from Intel (NASM), to AT&T (gas)"
