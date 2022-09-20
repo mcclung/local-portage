@@ -3,7 +3,7 @@
 
 EAPI=7
 
-inherit eutils toolchain-funcs
+inherit eutils epatch toolchain-funcs
 
 DESCRIPTION="Netkit - ruptime/rwho/rwhod"
 HOMEPAGE="http://www.hcs.harvard.edu/~dholland/computers/netkit.html"
