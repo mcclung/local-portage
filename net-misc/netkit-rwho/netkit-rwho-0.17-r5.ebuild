@@ -19,6 +19,8 @@ src_prepare() {
 	eapply "${WORKDIR}"/000{1,2,3,4}-*.patch
 	eapply "${FILESDIR}"/${P}-printf.patch #529974
 	eapply "${FILESDIR}"/${P}-stdint.patch #529974
+
+	eapply_user
 }
 
 src_configure() {
