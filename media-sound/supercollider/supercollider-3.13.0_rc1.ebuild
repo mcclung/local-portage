@@ -66,7 +66,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-3.11.2-fewer-qt-deps.patch # Upstream PR 4991
 )
 
-S="${WORKDIR}/SuperCollider-${PV/_/-/}-Source"
+S="${WORKDIR}/SuperCollider-${PV/_/-}-Source"
 
 src_configure() {
 	local mycmakeargs=(
