@@ -62,9 +62,9 @@ DEPEND="${RDEPEND}
 	vim? ( app-editors/vim )
 "
 
-PATCHES=(
-	"${FILESDIR}"/${PN}-3.11.2-fewer-qt-deps.patch # Upstream PR 4991
-)
+#PATCHES=(
+#	"${FILESDIR}"/${PN}-3.11.2-fewer-qt-deps.patch # Upstream PR 4991
+#)
 
 S="${WORKDIR}/SuperCollider-${PV/_/-}-Source"
 
