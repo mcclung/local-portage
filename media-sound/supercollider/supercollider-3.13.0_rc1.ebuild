@@ -109,7 +109,7 @@ src_configure() {
 src_install() {
 	cmake_src_install
 
-	use emacs && newdoc editors/scel/README.md README.emacs
+	#use emacs && newdoc editors/scel/README.md README.emacs
 	use gedit && newdoc editors/sced/README.md README.gedit
 	use vim && newdoc editors/scvim/README.md README.vim
 }
