@@ -23,7 +23,7 @@ else
 	KEYWORDS="~amd64 ~arm ~arm64"
 fi
 
-SLOT="${PV%%.*}"
+SLOT="4.0"
 LICENSE="|| ( GPL-3 BL )"
 IUSE="+bullet +fluid +openexr +tbb
 	alembic collada +color-management cuda +cycles cycles-bin-kernels
