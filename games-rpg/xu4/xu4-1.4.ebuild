@@ -20,12 +20,9 @@ RDEPEND="dev-libs/libxml2
 DEPEND="${RDEPEND}
 	app-arch/unzip"
 
-S=${WORKDIR}/u4
+#S="${WORKDIR}/${P}"
 
 PATCHES=(
-	"${FILESDIR}/${P}-ldflags.patch"
-	"${FILESDIR}/${PV}-savegame.patch"
-	"${FILESDIR}/${P}-warnings.patch"
 )
 
 src_unpack() {
@@ -43,14 +40,6 @@ src_unpack() {
 src_prepare() {
 	default
 
-	sed -i \
-		-e "s:/usr/local/lib/u4:/usr/$(get_libdir)/u4:" src/u4file.c \
-		|| die
-	sed -i \
-		-e 's:-Wall:$(E_CFLAGS):' src/Makefile \
-		|| die
-
-	has_version "<sys-libs/zlib-1.3" && eapply "${FILESDIR}/${P}-zip.patch"
 }
 
 src_compile() {
