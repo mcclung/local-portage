@@ -119,6 +119,7 @@ src_install() (
 pkg_postinst() {
 	xdg_desktop_database_update
 	xdg_mimeinfo_database_update
+	xdg_icon_cache_update
 	elog "If upgrading from 1.50.x release or earlier, note that Brave has changed the format of the"
 	elog "password file, and ALL YOUR OLD PASSWORDS WILL NOT WORK."
 	elog "YOUR BRAVE REWARDS WILL NOT WORK EITHER."
@@ -131,4 +132,5 @@ pkg_postinst() {
 pkg_postrm() {
 	xdg_desktop_database_update
 	xdg_mimeinfo_database_update
+	xdg_icon_cache_update
 }
