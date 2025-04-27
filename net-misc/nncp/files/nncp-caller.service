@@ -1,0 +1,11 @@
+[Unit]
+Description=Main NNCP caller
+
+[Service]
+ExecStart=/usr/bin/nncp-caller -noprogress
+Restart=always
+User=nncp
+Group=nncp
+
+[Install]
+WantedBy=multi-user.target

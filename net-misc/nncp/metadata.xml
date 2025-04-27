@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>scott.mcclung@gmail.com</email>
+		<name>Scott McClung</name>
+	</maintainer>
+	<use>
+		<flag name="yggdrasil">Enable support for the Yggdrasil experimental routing scheme</flag>
+	</use>
+</pkgmetadata>
