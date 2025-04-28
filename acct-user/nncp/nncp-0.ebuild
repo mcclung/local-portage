@@ -6,6 +6,7 @@ EAPI=8
 inherit acct-user
 
 DESCRIPTION="A user for net-misc/nncp"
+KEYWORDS="amd64"
 
 ACCT_USER_GROUPS=( "nncp" )
 ACCT_USER_ID="146"

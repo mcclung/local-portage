@@ -6,5 +6,6 @@ EAPI=8
 inherit acct-group
 
 DESCRIPTION="A group for net-misc/nncp"
+KEYWORDS="amd64"
 
 ACCT_GROUP_ID="146"
