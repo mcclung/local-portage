@@ -1,0 +1,271 @@
+diff '--color=auto' -u --recursive a/src/sccs.c b/src/sccs.c
+--- a/src/sccs.c	2019-05-07 07:40:13.000000000 -0400
++++ b/src/sccs.c	2025-12-01 01:17:52.856300981 -0500
+@@ -51,6 +51,7 @@
+ #include <stdarg.h>
+ #include <unistd.h>
+ #include <sys/types.h>
++#include <stdbool.h>
+ #include <sys/wait.h>
+ #include <sys/param.h>          /* TODO: this does what? */
+ #include <sys/stat.h>
+@@ -267,9 +268,12 @@
+ 
+ /****************  End of Configuration Information  ****************/
+ 
++#ifndef __bool_true_false_are_defined
+ typedef char bool;
+ #define TRUE    1
+ #define FALSE   0
++#define __bool_true_false_are_defined 1
++#endif
+ 
+ #define bitset(bit, word)       ((bool) ((bit) & (word)))
+ 
+@@ -383,7 +387,7 @@
+               char *const argv[], bool forkflag);
+ int clean (int mode, char *const argv[]);
+ int dodiff (char * getv[], const char *gfile);
+-int isbranch (const char *sid);
++bool isbranch (const char *sid);
+ void putpfent (register const struct pfile *pf, register FILE * f);
+ bool safepath (register const char *p);
+ bool isdir (const char *name);
+@@ -640,7 +644,7 @@
+   if (p != NULL && p[0] != '\0')
+     {
+       register struct passwd *pw;
+-      extern struct passwd *getpwnam();
++      /* extern struct passwd *getpwnam(); */
+       char buf[FBUFSIZ];
+ 
+       if (p[0] == '/')
+@@ -794,7 +798,7 @@
+     }
+   else
+     {
+-      i = command (argv, FALSE, "");
++      i = command (argv, false, "");
+       return i;
+     }
+ }
+@@ -820,7 +824,7 @@
+       ap[0] = buf2;     /* sccs enter foo --> admin -ifoo */
+       argv[0] = tail_nc (np[0]);
+       argv[1] = NULL;
+-      *rval = command (ap, TRUE, "admin");
++      *rval = command (ap, true, "admin");
+ 
+       argv[1] = argv_tmp;
+       if (*rval == 0)
+@@ -1121,15 +1125,15 @@
+           }
+ 
+         /* get the version with all changes */
+-        rval = command (&ap[1], TRUE, "get -k");
++        rval = command (&ap[1], true, "get -k");
+ 
+         /* now remove that version from the s-file */
+         if (rval == 0)
+-          rval = command (&ap[1], TRUE, "rmdel:r");
++          rval = command (&ap[1], true, "rmdel:r");
+ 
+         /* and edit the old version (but don't clobber new vers) */
+         if (rval == 0)
+-          rval = command (&ap[2], FALSE, "get -e -g");
++          rval = command (&ap[2], false, "get -e -g");
+       }
+       break;
+ 
+@@ -1163,7 +1167,7 @@
+ 
+         /* get all the files that we unedited successfully */
+         if (np > &ap[1])
+-          rval = command (&ap[1], TRUE, "get");
++          rval = command (&ap[1], true, "get");
+       }
+       break;
+ 
+@@ -1638,13 +1642,13 @@
+         {
+           p = my_index (p, '/');
+           if (p == NULL)
+-            return TRUE;
++            return true;
+           p++;
+         }
+     }
+ 
+   printf ("You may not use full pathnames or \"..\" but you specifed '%s'\n", arg);
+-  return FALSE;
++  return false;
+ }
+ 
+ static void
+@@ -1694,7 +1698,7 @@
+   bool gotedit;
+   bool gotpfent;
+   FILE *pfp;
+-  bool nobranch = FALSE;
++  bool nobranch = false;
+   register const struct pfile *pf;
+   register char *const *ap;
+   const char *usernm = NULL;
+@@ -1714,7 +1718,7 @@
+           switch ((*ap)[1])
+             {
+             case 'b':
+-              nobranch = TRUE;
++              nobranch = true;
+               break;
+ 
+             case 'u':
+@@ -1764,7 +1768,7 @@
+      **           files that are being edited.
+    */
+ 
+-  gotedit = FALSE;
++  gotedit = false;
+   while (NULL != (dir = readdir (dirp)))
+     {
+       if ('s' != dir->d_name[0] ||
+@@ -1785,7 +1789,7 @@
+        */
+ 
+       pfp = fopen (buf, "r");
+-      gotpfent = FALSE;
++      gotpfent = false;
+       if (pfp != NULL)
+         {
+           /* the file exists -- report it's contents */
+@@ -1795,8 +1799,8 @@
+                 continue;
+               if (usernm != NULL && strcmp (usernm, pf->p_user) != 0 && mode != CLEANC)
+                 continue;
+-              gotedit = TRUE;
+-              gotpfent = TRUE;
++              gotedit = true;
++              gotpfent = true;
+               if (mode == TELLC)
+                 {
+                   printf ("%s\n", basefile);
+@@ -1865,7 +1869,7 @@
+    **           none.
+  */
+ 
+-int
++bool
+ isbranch (const char *sid)
+ {
+   register const char *p;
+@@ -1877,9 +1881,9 @@
+       if (*p == '.')
+         dots++;
+       if (dots > 1)
+-        return TRUE;
++        return true;
+     }
+-  return FALSE;
++  return false;
+ }
+ 
+ /*
+@@ -1909,8 +1913,8 @@
+   char *pfn;
+   FILE *tfp;
+   register char *q;
+-  bool delete = FALSE;
+-  bool others = FALSE;
++  bool delete = false;
++  bool others = false;
+   const char *myname;
+   const struct pfile *pent;
+   char buf[PFILELG];
+@@ -1918,7 +1922,7 @@
+   /* make "s." filename & find the trailing component */
+   pfn = makefile (fn);          /* returned value must be freed. */
+   if (pfn == NULL)
+-    return (FALSE);
++    return (false);
+   q = my_rindex (pfn, '/');
+   if (q == NULL)
+     q = &pfn[-1];
+@@ -1926,7 +1930,7 @@
+     {
+       usrerr ("bad file name \"%s\"", fn);
+       free(pfn);
+-      return (FALSE);
++      return (false);
+     }
+ 
+   /* turn "s." into "p." & try to open it */
+@@ -1937,7 +1941,7 @@
+     {
+       printf ("%12s: not being edited\n", fn);
+       free(pfn);
+-      return (FALSE);
++      return (false);
+     }
+ 
+   /* create temp file for editing p-file */
+@@ -1962,7 +1966,7 @@
+       if (strcmp (pent->p_user, myname) == 0)
+         {
+           /* a match */
+-          delete = TRUE;
++          delete = true;
+         }
+       else
+         {
+@@ -2001,7 +2005,7 @@
+             fclose (tfp);
+             fclose (pfp);
+             free(pfn);
+-            return (FALSE);
++            return (false);
+           }
+     }
+   /* do final cleanup */
+@@ -2014,7 +2018,7 @@
+         {
+           usrerr ("cannot create \"%s\"", pfn);
+           free(pfn);
+-          return (FALSE);
++          return (false);
+         }
+       while (fgets (buf, sizeof buf, tfp) != NULL)
+         fputs (buf, pfp);
+@@ -2043,13 +2047,13 @@
+       if (unlink (cp) >= 0)
+         printf ("%12s: removed\n", cp);
+       free(pfn);
+-      return (TRUE);
++      return (true);
+     }
+   else
+     {
+       printf ("%12s: not being edited by you\n", fn);
+       free(pfn);
+-      return (FALSE);
++      return (false);
+     }
+ }
+ 
+@@ -2094,7 +2098,7 @@
+       /* in parent; run get */
+       OutFile = pipev[1];
+       close (pipev[0]);
+-      rval = command (&getv[1], TRUE, "get:rcixt -s -k -p");
++      rval = command (&getv[1], true, "get:rcixt -s -k -p");
+ 
+       childwait(pid, &st, 1);   /* ignore SIGINT while waiting. */
+       /* ignore result of diff */
+@@ -2112,7 +2116,7 @@
+       /* GNU diff supports -v (show version) but I don't think
+        *  this is useful.  Nevertheless we pass it through.
+        */
+-      command (&getv[1], FALSE, "-diff:elsfhbCunaBdHpqsvwyD");
++      command (&getv[1], false, "-diff:elsfhbCunaBdHpqsvwyD");
+     }
+   return rval;
+ }
