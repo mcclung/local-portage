@@ -1,0 +1,188 @@
+diff '--color=auto' -u --recursive a/base/newspost.c b/base/newspost.c
+--- a/base/newspost.c	2025-12-10 22:02:04.648544577 -0500
++++ b/base/newspost.c	2025-12-10 22:05:33.928293063 -0500
+@@ -108,7 +108,7 @@
+ 	else {
+ 		/* post any sfv files... */
+ 		if (data->sfv != NULL) {
+-			file_data = file_entry_alloc(file_data);
++			file_data = file_entry_alloc();
+ 			file_data->filename = 
+ 				buff_create(file_data->filename, "%s", data->sfv->data);
+ 			if (stat(data->sfv->data, &file_data->fileinfo) == -1)
+diff '--color=auto' -u --recursive a/parchive/md5.c b/parchive/md5.c
+--- a/parchive/md5.c	2002-09-02 20:04:31.000000000 -0400
++++ b/parchive/md5.c	2025-12-10 22:14:54.401931567 -0500
+@@ -102,9 +102,7 @@
+    resulting message digest number will be written into the 16 bytes
+    beginning at RESBLOCK.  */
+ i64
+-md5_stream (stream, resblock)
+-     FILE *stream;
+-     void *resblock;
++md5_stream (FILE *stream, void *resblock)
+ {
+ 	/* Important: BLOCKSIZE must be a multiple of 64.  */
+ #define BLOCKSIZE 4096
+@@ -165,10 +163,7 @@
+    output yields to the wanted ASCII representation of the message
+    digest.  */
+ void *
+-md5_buffer (buffer, len, resblock)
+-     const char *buffer;
+-     size_t len;
+-     void *resblock;
++md5_buffer (const char *buffer, size_t len, void *resblock)
+ {
+ 	struct md5_ctx ctx;
+ 	
+@@ -190,8 +185,7 @@
+ /* Initialize structure containing state of computation.
+    (RFC 1321, 3.3: Step 3)  */
+ static void
+-md5_init_ctx (ctx)
+-     struct md5_ctx *ctx;
++md5_init_ctx (struct md5_ctx *ctx)
+ {
+ 	ctx->A = 0x67452301;
+ 	ctx->B = 0xefcdab89;
+@@ -208,9 +202,7 @@
+    IMPORTANT: On some systems it is required that RESBUF is correctly
+    aligned for a 32 bits value.  */
+ static void *
+-md5_read_ctx (ctx, resbuf)
+-     const struct md5_ctx *ctx;
+-     void *resbuf;
++md5_read_ctx (const struct md5_ctx *ctx, void *resbuf)
+ {
+ 	u8 *rb = resbuf;
+ 	u32 v;
+@@ -241,9 +233,7 @@
+    IMPORTANT: On some systems it is required that RESBUF is correctly
+    aligned for a 32 bits value.  */
+ static void *
+-md5_finish_ctx (ctx, resbuf)
+-     struct md5_ctx *ctx;
+-     void *resbuf;
++md5_finish_ctx (struct md5_ctx *ctx, void *resbuf)
+ {
+   /* Take yet unprocessed bytes into account.  */
+ 	u32 bytes = ctx->buflen;
+@@ -278,10 +268,7 @@
+ }
+ 
+ static void
+-md5_process_bytes (buffer, len, ctx)
+-     const void *buffer;
+-     size_t len;
+-     struct md5_ctx *ctx;
++md5_process_bytes (const void *buffer, size_t len, struct md5_ctx *ctx)
+ {
+ 	/* When we already have some bits in our internal buffer concatenate
+ 	   both inputs first.  */
+@@ -335,10 +322,7 @@
+    It is assumed that LEN % 64 == 0.  */
+ 
+ static void
+-md5_process_block (buffer, len, ctx)
+-     const void *buffer;
+-     size_t len;
+-     struct md5_ctx *ctx;
++md5_process_block (const void *buffer, size_t len, struct md5_ctx *ctx)
+ {
+ 	u32 correct_words[16];
+ 	const u8 *words = buffer;
+diff '--color=auto' -u --recursive a/ui/main.c b/ui/main.c
+--- a/ui/main.c	2003-04-23 11:33:33.000000000 -0400
++++ b/ui/main.c	2025-12-10 22:24:05.661632505 -0500
+@@ -31,7 +31,7 @@
+ 
+ const char *EDITOR = NULL;
+ 
+-static void signal_handler();
++static void signal_handler(int sig);
+ 
+ int main(int argc, char **argv) {
+ 	newspost_data main_data;
+@@ -159,13 +159,17 @@
+ 			tmpdir_ptr = main_data.tmpdir;
+ 
+ 			if ((main_data.text == TRUE) && (file_list == NULL)) {
+-				file_data = file_entry_alloc(file_data);
++				file_data = file_entry_alloc();
+ 				file_data->filename = buff_create(file_data->filename,
+ 					 "%s/message", main_data.tmpdir->data);
+ 				command = buff_create(command, "%s %s",
+ 					 (EDITOR != NULL) ? EDITOR : "vi",
+ 					 file_data->filename->data);
+-				system(command->data);
++                int rc = system(command->data);
++                if (rc == -1 || rc == 127) {
++                    perror("system");
++                    exit(1);
++                }
+ 				
+ 				fp = fopen(file_data->filename->data, "rb");
+ 				if (fp != NULL) {
+@@ -186,7 +190,10 @@
+ 						command = buff_create(command,
+ 							 "rm -rf %s",
+ 							 main_data.tmpdir->data);
+-						system(command->data);
++						int rc = system(command->data);
++                        if (rc == -1 || rc == 127) {
++                            perror("system");
++                        }
+ 					}
+ 					fprintf(stderr,
+ 						"\nCannot open message: %s"
+@@ -204,7 +211,11 @@
+ 				command = buff_create(command, "%s %s",
+ 					 (EDITOR != NULL) ? EDITOR : "vi",
+ 					 main_data.prefix->data);
+-				system(command->data);
++				int rc = system(command->data);
++                if (rc == -1 || rc == 127) {
++                    perror("system");
++                    exit(1);
++                }
+ 				
+ 				fp = fopen(main_data.prefix->data, "rb");
+ 
+@@ -258,7 +269,11 @@
+ 		if (rmdir(main_data.tmpdir->data) == -1) {
+ 			command = buff_create(command,
+ 				 "rm -rf %s", main_data.tmpdir->data);
+-			system(command->data);
++			int rc = system(command->data);
++            if (rc == -1 || rc == 127) {
++                perror("system");
++                exit(1);
++            }
+ 		}
+ 	}
+ 	buff_free(command);
+@@ -324,8 +339,9 @@
+ 	}
+ }
+ 
+-static void signal_handler() {
++static void signal_handler(int sig) {
+ 	Buff *command = NULL;
++    (void)sig;
+ 
+ 	fprintf(stderr, "\nSignal received");
+ 	if (tmpdir_ptr != NULL) {
+@@ -333,7 +349,11 @@
+ 		if (rmdir(tmpdir_ptr->data) == -1) {
+ 			command = buff_create(command,
+ 				 "rm -rf %s", tmpdir_ptr->data);
+-			system(command->data);
++			int rc = system(command->data);
++            if (rc == -1 || rc == 127) {
++                perror("system");
++                exit(1);
++            }
+ 		}
+ 		fprintf(stderr, "done.");
+ 	}
