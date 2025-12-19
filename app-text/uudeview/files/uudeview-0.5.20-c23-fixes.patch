@@ -223,13 +223,16 @@ diff '--color=auto' -u --recursive a/uulib/uuencode.c b/uulib/uuencode.c
        if (feof (theifile))
 diff '--color=auto' -u --recursive a/uulib/uunconc.c b/uulib/uunconc.c
 --- a/uulib/uunconc.c	2025-12-19 00:03:23.082244867 -0500
-+++ b/uulib/uunconc.c	2025-12-19 01:03:19.131717582 -0500
-@@ -1583,7 +1583,7 @@
++++ b/uulib/uunconc.c	2025-12-19 01:27:56.495341720 -0500
+@@ -1583,7 +1583,10 @@
      r[0] = fgetc (datain);
      hb   = (int) r[0] + 22;
      fseek (datain, (int) r[0] + 12, SEEK_SET);
 -    fread (r, 1, 8, datain);
-+    (void)fread (r, 1, 8, datain);
++    if (fread (r, 1, 8, datain) < 8) {
++        perror("fread");
++        exit(1);
++    }
  
      dsize = (((long) 1 << 24) * (long) r[0]) +
              (((long) 1 << 16) * (long) r[1]) +
