@@ -1,6 +1,6 @@
 diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
 --- a/inews/clientlib.c	2025-12-19 00:04:17.904180177 -0500
-+++ b/inews/clientlib.c	2025-12-19 00:35:10.471200818 -0500
++++ b/inews/clientlib.c	2025-12-19 00:59:36.838919010 -0500
 @@ -72,9 +72,7 @@
   *	Side effects:	None.
   */
@@ -22,6 +22,17 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
  	int	sockt_rd, sockt_wr;
  	char	line[256];
+@@ -202,8 +199,8 @@
+ 	int	s;
+ 	struct	sockaddr_in sin;
+ #ifndef EXCELAN
+-	struct	servent *getservbyname(), *sp;
+-	struct	hostent *gethostbyname(), *hp;
++	struct	servent *getservbyname(char *, char *), *sp;
++	struct	hostent *gethostbyname(char *), *hp;
+ #ifdef h_addr
+ 	int	x = 0;
+ 	register char **cp;
 @@ -345,8 +342,7 @@
   *	Errors:		Printed via nerror.
   */
@@ -145,3 +156,70 @@ diff '--color=auto' -u --recursive a/inews/inews.c b/inews/inews.c
  {
    char *colon, *space;
  
+diff '--color=auto' -u --recursive a/uulib/uuencode.c b/uulib/uuencode.c
+--- a/uulib/uuencode.c	2002-04-02 05:04:52.000000000 -0500
++++ b/uulib/uuencode.c	2025-12-19 01:02:01.264788443 -0500
+@@ -931,7 +931,7 @@
+ 		 eolstring);
+       }
+ 
+-      fprintf (outfile, "=ypart begin=%d end=%d%s",
++      fprintf (outfile, "=ypart begin=%ld end=%ld%s",
+ 	       (partno-1)*linperfile*128+1,
+ 	       (partno*linperfile*128) < progress.totsize ? 
+ 	       (partno*linperfile*128) : progress.totsize,
+@@ -997,14 +997,14 @@
+   }
+   else if (encoding == YENC_ENCODED) {
+     if (numparts != 1) {
+-      fprintf (outfile, "=yend size=%d part=%d pcrc32=%08lx",
++      fprintf (outfile, "=yend size=%ld part=%d pcrc32=%08lx",
+ 	       (partno*linperfile*128) < progress.totsize ? 
+ 	       linperfile*128 : (progress.totsize-(partno-1)*linperfile*128),
+ 	       partno,
+ 	       pcrc);
+     }
+     else {
+-      fprintf (outfile, "=yend size=%d",
++      fprintf (outfile, "=yend size=%ld",
+ 	       progress.totsize);
+     }
+     if (feof (theifile))
+@@ -1405,7 +1405,7 @@
+ 		   eolstring);
+ 	}
+ 
+-	fprintf (outfile, "=ypart begin=%d end=%d%s",
++	fprintf (outfile, "=ypart begin=%ld end=%ld%s",
+ 		 (part-1)*linperfile*128+1,
+ 		 (part*linperfile*128) < progress.totsize ? 
+ 		 (part*linperfile*128) : progress.totsize,
+@@ -1451,14 +1451,14 @@
+     }
+     else if (encoding == YENC_ENCODED) {
+       if (numparts != 1) {
+-	fprintf (outfile, "=yend size=%d part=%d pcrc32=%08lx",
++	fprintf (outfile, "=yend size=%ld part=%d pcrc32=%08lx",
+ 		 (part*linperfile*128) < progress.totsize ? 
+ 		 linperfile*128 : (progress.totsize-(part-1)*linperfile*128),
+ 		 part,
+ 		 pcrc);
+       }
+       else {
+-	fprintf (outfile, "=yend size=%d",
++	fprintf (outfile, "=yend size=%ld",
+ 		 progress.totsize);
+       }
+       if (feof (theifile))
+diff '--color=auto' -u --recursive a/uulib/uunconc.c b/uulib/uunconc.c
+--- a/uulib/uunconc.c	2025-12-19 00:03:23.082244867 -0500
++++ b/uulib/uunconc.c	2025-12-19 01:03:19.131717582 -0500
+@@ -1583,7 +1583,7 @@
+     r[0] = fgetc (datain);
+     hb   = (int) r[0] + 22;
+     fseek (datain, (int) r[0] + 12, SEEK_SET);
+-    fread (r, 1, 8, datain);
++    (void)fread (r, 1, 8, datain);
+ 
+     dsize = (((long) 1 << 24) * (long) r[0]) +
+             (((long) 1 << 16) * (long) r[1]) +

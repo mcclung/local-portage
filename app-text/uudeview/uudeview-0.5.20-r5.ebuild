@@ -39,7 +39,7 @@ src_prepare() {
 }
 
 src_configure() {
-	append-cflags -DANSI_PROTOTYPES
+	append-cppflags -DANSI_PROTOTYPES
 
 	econf \
 		--disable-tcl \
