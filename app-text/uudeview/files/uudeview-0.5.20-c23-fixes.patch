@@ -1,6 +1,6 @@
 diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
 --- a/inews/clientlib.c	2025-12-19 00:04:17.904180177 -0500
-+++ b/inews/clientlib.c	2025-12-19 01:08:35.399426629 -0500
++++ b/inews/clientlib.c	2025-12-19 01:11:13.621279245 -0500
 @@ -72,9 +72,7 @@
   *	Side effects:	None.
   */
@@ -36,7 +36,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
 -	struct	servent *getservbyname(), *sp;
 -	struct	hostent *gethostbyname(), *hp;
 +	struct	servent *getservbyname(const char *, const char *), *sp;
-+	struct	hostent *gethostbyname(char *), *hp;
++	struct	hostent *gethostbyname(const char *), *hp;
  #ifdef h_addr
  	int	x = 0;
  	register char **cp;
