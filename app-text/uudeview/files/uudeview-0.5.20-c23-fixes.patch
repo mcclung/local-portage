@@ -1,0 +1,147 @@
+diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
+--- a/inews/clientlib.c	2025-12-19 00:04:17.904180177 -0500
++++ b/inews/clientlib.c	2025-12-19 00:35:10.471200818 -0500
+@@ -72,9 +72,7 @@
+  *	Side effects:	None.
+  */
+ 
+-char *
+-getserverbyfile(file)
+-char	*file;
++char *getserverbyfile(char *file)
+ {
+ 	register FILE	*fp;
+ 	register char	*cp;
+@@ -135,8 +133,7 @@
+  *			for reading and writing to server.
+  */
+ 
+-int server_init(machine)
+-char	*machine;
++int server_init(char *machine)
+ {
+ 	int	sockt_rd, sockt_wr;
+ 	char	line[256];
+@@ -345,8 +342,7 @@
+  *	Errors:		Printed via nerror.
+  */
+ 
+-int get_dnet_socket(machine)
+-char	*machine;
++int get_dnet_socket(char *machine)
+ {
+ 	int	s, area, node;
+ 	struct	sockaddr_dn sdn;
+@@ -428,9 +424,7 @@
+  *	Side effects:	None.
+  */
+ 
+-int handle_server_response(response, server)
+-int	response;
+-char	*server;
++int handle_server_response(int response, char *server)
+ {
+     switch (response) {
+ 	case OK_NOPOST:		/* fall through */
+@@ -478,9 +472,7 @@
+  *			fflush.
+  */
+ 
+-void
+-put_server(string)
+-char *string;
++void put_server(char *string)
+ {
+ #ifdef DEBUG
+ 	fprintf(stderr, ">>> %s\n", string);
+@@ -503,9 +495,7 @@
+  *	Side effects:	Talks to server, changes contents of "string".
+  */
+ 
+-int get_server(string, size)
+-char	*string;
+-int	size;
++int get_server(char *string, int size)
+ {
+ 	register char *cp;
+ 
+@@ -537,8 +527,7 @@
+  *			after this routine is called.
+  */
+ 
+-void
+-close_server()
++void close_server()
+ {
+ 	char	ser_line[256];
+ 
+diff '--color=auto' -u --recursive a/inews/clientlib.h b/inews/clientlib.h
+--- a/inews/clientlib.h	2025-12-19 00:04:17.904180177 -0500
++++ b/inews/clientlib.h	2025-12-19 00:51:48.618334135 -0500
+@@ -4,10 +4,10 @@
+  * @(#)clientlib.h	1.1	(Berkeley) 1/9/88
+  */
+ 
+-extern	char	*getserverbyfile();
+-extern	int	server_init();
+-extern	void	put_server();
+-extern	int	get_server();
++extern	char	*getserverbyfile(char *);
++extern	int	server_init(char *);
++extern	void	put_server(char *);
++extern	int	get_server(char *string, int size);
+ extern	void	close_server();
+ 
+ extern	int	get_tcp_socket(char *machine);
+diff '--color=auto' -u --recursive a/inews/inews.c b/inews/inews.c
+--- a/inews/inews.c	2025-12-19 00:04:17.904180177 -0500
++++ b/inews/inews.c	2025-12-19 00:32:53.935321826 -0500
+@@ -52,15 +52,13 @@
+ 
+ char	host_name[256];
+ 
+-int main(argc, argv)
+-int	argc;
+-char	*argv[];
++int main(int argc, char *argv[])
+ {
+ 	char	line[NNTP_STRLEN], s[NNTP_STRLEN];
+ 	int	seen_fromline, in_header, seen_header;
+ 	int	response;
+ 	char	*server;
+-	char	*getserverbyfile();
++	char	*getserverbyfile(char *);
+ 	register char	*cp;
+ 
+ 	++argv;
+@@ -335,9 +333,7 @@
+  *	Side effects:	None.
+  */
+ 
+-int strneql(a, b, n)
+-register char *a, *b;
+-int	n;
++int strneql(register char *a, register char *b, int	n)
+ {
+ 	char	lower();
+ 
+@@ -368,8 +364,7 @@
+  *	Side effects:	None.
+  */
+ 
+-char lower(c)
+-register char c;
++char lower(register char c)
+ {
+ 	if (isascii(c) && isupper(c))
+ 		c = c - 'A' + 'a';
+@@ -388,8 +383,7 @@
+  *
+  */
+ 
+-int valid_header(h)
+-register char *h;
++int valid_header(register char *h)
+ {
+   char *colon, *space;
+ 
