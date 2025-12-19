@@ -1,6 +1,6 @@
 diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
 --- a/inews/clientlib.c	2025-12-19 00:04:17.904180177 -0500
-+++ b/inews/clientlib.c	2025-12-19 00:59:36.838919010 -0500
++++ b/inews/clientlib.c	2025-12-19 01:08:35.399426629 -0500
 @@ -72,9 +72,7 @@
   *	Side effects:	None.
   */
@@ -22,18 +22,25 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
  	int	sockt_rd, sockt_wr;
  	char	line[256];
-@@ -202,8 +199,8 @@
+@@ -196,14 +193,13 @@
+  *	Errors:		Printed via perror.
+  */
+ 
+-int get_tcp_socket(machine)
+-char	*machine;
++int get_tcp_socket(char *machine)
+ {
  	int	s;
  	struct	sockaddr_in sin;
  #ifndef EXCELAN
 -	struct	servent *getservbyname(), *sp;
 -	struct	hostent *gethostbyname(), *hp;
-+	struct	servent *getservbyname(char *, char *), *sp;
++	struct	servent *getservbyname(const char *, const char *), *sp;
 +	struct	hostent *gethostbyname(char *), *hp;
  #ifdef h_addr
  	int	x = 0;
  	register char **cp;
-@@ -345,8 +342,7 @@
+@@ -345,8 +341,7 @@
   *	Errors:		Printed via nerror.
   */
  
@@ -43,7 +50,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
  	int	s, area, node;
  	struct	sockaddr_dn sdn;
-@@ -428,9 +424,7 @@
+@@ -428,9 +423,7 @@
   *	Side effects:	None.
   */
  
@@ -54,7 +61,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
      switch (response) {
  	case OK_NOPOST:		/* fall through */
-@@ -478,9 +472,7 @@
+@@ -478,9 +471,7 @@
   *			fflush.
   */
  
@@ -65,7 +72,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
  #ifdef DEBUG
  	fprintf(stderr, ">>> %s\n", string);
-@@ -503,9 +495,7 @@
+@@ -503,9 +494,7 @@
   *	Side effects:	Talks to server, changes contents of "string".
   */
  
@@ -76,7 +83,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.c b/inews/clientlib.c
  {
  	register char *cp;
  
-@@ -537,8 +527,7 @@
+@@ -537,8 +526,7 @@
   *			after this routine is called.
   */
  
@@ -106,7 +113,7 @@ diff '--color=auto' -u --recursive a/inews/clientlib.h b/inews/clientlib.h
  extern	int	get_tcp_socket(char *machine);
 diff '--color=auto' -u --recursive a/inews/inews.c b/inews/inews.c
 --- a/inews/inews.c	2025-12-19 00:04:17.904180177 -0500
-+++ b/inews/inews.c	2025-12-19 00:32:53.935321826 -0500
++++ b/inews/inews.c	2025-12-19 01:07:11.069504697 -0500
 @@ -52,15 +52,13 @@
  
  char	host_name[256];
@@ -125,7 +132,7 @@ diff '--color=auto' -u --recursive a/inews/inews.c b/inews/inews.c
  	register char	*cp;
  
  	++argv;
-@@ -335,9 +333,7 @@
+@@ -335,11 +333,9 @@
   *	Side effects:	None.
   */
  
@@ -134,8 +141,11 @@ diff '--color=auto' -u --recursive a/inews/inews.c b/inews/inews.c
 -int	n;
 +int strneql(register char *a, register char *b, int	n)
  {
- 	char	lower();
+-	char	lower();
++	char	lower(char c);
  
+ 	while (n && lower(*a) == lower(*b)) {
+ 		if (*a == '\0')
 @@ -368,8 +364,7 @@
   *	Side effects:	None.
   */
