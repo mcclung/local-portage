@@ -25,10 +25,6 @@ BDEPEND="
 DOCS=( BUGS LIMITATIONS NEWS README THANKS TODO )
 
 PATCHES=(
-	"${FILESDIR}/${P}-glibc228.patch"
-	"${FILESDIR}/${PN}-4.1-configure-clang16.patch"
-	"${FILESDIR}/${P}-fortify.patch"
-	"${FILESDIR}/${PN}-4.1-fix-ncurses.patch"
 )
 
 src_prepare() {
