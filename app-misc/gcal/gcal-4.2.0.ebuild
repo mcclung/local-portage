@@ -11,7 +11,7 @@ SRC_URI="mirror://gnu/gcal/${P}.tar.xz https://www.alteholz.dev/gnu/${P}.tar.xz"
 
 LICENSE="GPL-3+"
 SLOT="0"
-KEYWORDS="amd64 ~arm ppc x86"
+KEYWORDS="~amd64 ~arm ~ppc ~x86"
 IUSE="ncurses nls unicode"
 
 RDEPEND="nls? ( virtual/libintl )
