@@ -2,7 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>mschiff@gentoo.org</email>
-		<name>Marc Schiffbauer</name>
+		<email>scott@mcclung.com</email>
+		<name>Scott McClung</name>
 	</maintainer>
 </pkgmetadata>

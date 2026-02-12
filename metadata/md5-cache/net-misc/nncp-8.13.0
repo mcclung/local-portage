@@ -1,0 +1,15 @@
+BDEPEND=app-arch/unzip >=dev-lang/go-1.20 virtual/pkgconfig
+DEFINED_PHASES=compile configure install prepare
+DESCRIPTION=Utilities for securely store-and-forwarding files, mail and commands
+EAPI=8
+HOMEPAGE=http://www.nncpgo.org/
+INHERIT=systemd
+IUSE=systemd yggdrasil
+KEYWORDS=amd64
+LICENSE=GPL-3
+RDEPEND=acct-user/nncp
+RESTRICT=strip
+SLOT=0
+SRC_URI=http://www.nncpgo.org/download/nncp-8.13.0.tar.xz
+_eclasses_=toolchain-funcs	30214924c0c3b92ec7dbf24fc70d60d3	systemd	a964c0cbe818b5729da1dbfcee5be861
+_md5_=c66cf0b2702e0c0c88959c6e8731ae71

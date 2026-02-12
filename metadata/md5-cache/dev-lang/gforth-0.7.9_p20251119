@@ -1,0 +1,14 @@
+DEFINED_PHASES=compile configure install postinst postrm prepare
+DEPEND=>=dev-libs/libffi-3.0.13 dev-libs/libltdl emacs? ( >=app-editors/emacs-23.1:* )
+DESCRIPTION=GNU Forth is an implementation of the Forth 2012 language
+EAPI=8
+HOMEPAGE=https://www.gnu.org/software/gforth https://gforth.org
+INHERIT=elisp-common
+IUSE=emacs
+KEYWORDS=~amd64
+LICENSE=GPL-2
+RDEPEND=>=dev-libs/libffi-3.0.13 dev-libs/libltdl emacs? ( >=app-editors/emacs-23.1:* )
+SLOT=0
+SRC_URI=https://www.complang.tuwien.ac.at/forth/gforth/Snapshots/0.7.9_20251119/gforth-0.7.9_20251119.tar.xz
+_eclasses_=elisp-common	fe05085d051330f15cf7201109b5cd23
+_md5_=0eb0b3d32058bc9c3d6a5a6e2d1e901d

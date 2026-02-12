@@ -7,7 +7,7 @@
 		working with sound. It is free and open source software
 		available for Windows, Mac OS X, and Linux.
 	</longdescription>
-	<maintainer type="project" proxied="proxy">
+	<maintainer type="person">
 		<email>scott.mcclung@gmail.com</email>
 		<name>Scott McClung</name>
 	</maintainer>
