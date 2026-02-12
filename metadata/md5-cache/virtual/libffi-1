@@ -1,8 +1,0 @@
-DEFINED_PHASES=-
-DEPEND=dev-libs/libffi
-DESCRIPTION=Virtual for libffi
-EAPI=7
-KEYWORDS=amd64 ~x86
-RDEPEND=dev-libs/libffi
-SLOT=0
-_md5_=2902960d37f6c4dcbb1e1fa01c12ceb2
