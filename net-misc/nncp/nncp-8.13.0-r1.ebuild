@@ -50,17 +50,19 @@ src_compile() {
 	SPOOLPATH=${SPOOLPATH:-/var/spool/nncp}
 	LOGPATH=${LOGPATH:-/var/spool/nncp/log}
 
-	cd src
+	cd src || exit 1
 	MOD=$(go list -mod=vendor)
 	GO_LDFLAGS=''
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultCfgPath=${CFGPATH}"
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultSendmailPath=${SENDMAIL}"
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultSpoolPath=${SPOOLPATH}"
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultLogPath=${LOGPATH}"
-	for CMD in $(cat ../cmd.list); do
-		go build -mod=vendor -o ../bin/${CMD} ${GOFLAGS} -ldflags "${GO_LDFLAGS}" ./cmd/nncp/${CMD#nncp-}.go
-	done
+	go build -mod=vendor -o ../bin/nncp ${GOFLAGS} -ldflags "${GO_LDFLAGS}" ./cmd/nncp
 	go build -mod=vendor -o ../bin/hjson-cli ${GOFLAGS} github.com/hjson/hjson-go/v4/hjson-cli
+	cd ../bin || exit 1
+	for CMD in $(cat ../cmd.list); do
+		ln -fs nncp ${CMD}
+	done
 
 }
 
