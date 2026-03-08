@@ -57,7 +57,7 @@ src_compile() {
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultSendmailPath=${SENDMAIL}"
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultSpoolPath=${SPOOLPATH}"
 	GO_LDFLAGS="${GO_LDFLAGS} -X ${MOD}.DefaultLogPath=${LOGPATH}"
-	for CMD in $(cat ../bin/cmd.list); do
+	for CMD in $(cat ../cmd.list); do
 		go build -mod=vendor -o ../bin/${CMD} ${GOFLAGS} -ldflags "${GO_LDFLAGS}" ./cmd/${CMD}
 	done
 	go build -mod=vendor -o ../bin/hjson-cli ${GOFLAGS} github.com/hjson/hjson-go/v4/hjson-cli
@@ -66,7 +66,7 @@ src_compile() {
 
 src_install() {
 
-	for CMD in $(cat bin/cmd.list); do
+	for CMD in $(cat cmd.list); do
 		dobin bin/${CMD}
 	done
 
