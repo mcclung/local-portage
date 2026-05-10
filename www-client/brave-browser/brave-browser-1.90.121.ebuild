@@ -94,26 +94,29 @@ src_prepare() {
 src_install() (
 	shopt -s extglob
 
-		declare BRAVE_HOME=/opt/${BRAVE_PN}
+	declare BRAVE_HOME=/opt/${BRAVE_PN}
 
-		dodir ${BRAVE_HOME%/*}
+	dodir ${BRAVE_HOME%/*}
 
-		insinto ${BRAVE_HOME}
-			doins -r *
+	insinto ${BRAVE_HOME}
+	doins -r *
     # Brave has a bug in 1.27.105 where it needs crashpad_handler chmodded
     # Delete crashpad_handler when https://github.com/brave/brave-browser/issues/16985 is resolved.
-			exeinto ${BRAVE_HOME}
-				doexe brave chrome_crashpad_handler
+	exeinto ${BRAVE_HOME}
+	doexe brave chrome_crashpad_handler
 
-		dosym ${BRAVE_HOME}/brave /usr/bin/${PN} || die
+	dosym ${BRAVE_HOME}/brave /usr/bin/${PN} || die
 
-	# Install Icons for Brave. 
-		newicon "${FILESDIR}/braveAbout.png" "${PN}.png" || die
-		newicon -s 128 "${FILESDIR}/braveAbout.png" "${PN}.png" || die
+	# Install Icons for Brave.
+	newicon "${FILESDIR}/braveAbout.png" "${PN}.png" || die
+	newicon -s 128 "${FILESDIR}/braveAbout.png" "${PN}.png" || die
 
 	# install-xattr doesnt approve using domenu or doins from FILESDIR
-		cp "${FILESDIR}"/${PN}.desktop "${S}"
-		domenu "${S}"/${PN}.desktop
+	cp "${FILESDIR}"/${PN}.desktop "${S}"
+	domenu "${S}"/${PN}.desktop
+
+	# Qt5 is going away
+	rm "${ED}/opt/brave-browser/libqt5_shim.so" || die
 )
 
 pkg_postinst() {
